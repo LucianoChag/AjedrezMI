@@ -10,7 +10,7 @@ class Cuadricula:
         self.alto = alto
         self.abs_x = x * ancho
         self.abs_y = y * alto
-        self.abs_pos = (auto.abs_x, auto.abs_y)
+        self.abs_pos = (self.abs_x, self.abs_y)
         self.pos = (x,y)
         self.color = 'light' if (x+y) % 2 == 0 else 'dark'
         self.dibujar_color = (220, 208, 194) if self.color == 'light' else (53, 53, 53)
@@ -18,12 +18,12 @@ class Cuadricula:
         self.ocupando_espacio = None
         self.coordenada = self.get_coordenada()
         self.resaltado = False
-        self.cuadrado = pygame.Rect{
+        self.cuadrado = pygame.Rect(
             self.abs_x,
             self.abs_y,
             self.ancho,
             self.alto,
-        }
+        )
 
     #Obtener el nombre de la posición (por ej: A1)
     def get_coordenada(self):
