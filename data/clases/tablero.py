@@ -52,30 +52,30 @@ class Tablero:
         for y, fila in enumerate(self.config):
             for x, pieza in enumerate(fila):
                 if pieza != '':
-                    Cuadricula = self.get_cuadricula_desde_pos((x, y))
+                    cuadricula = self.get_cuadricula_desde_pos((x, y))
                     #Miramos dentro del contenido a ver que pieza corresponde
                     if pieza[1] == 'T':
-                        Cuadricula.ocupando_espacio = Torre(
+                        cuadricula.ocupando_espacio = Torre(
                             (x, y), 'white' if pieza[0] == 'b' else 'black', self
                         )
                     elif pieza[1] == 'C':
-                        Cuadricula.ocupando_espacio = Caballo(
+                        cuadricula.ocupando_espacio = Caballo(
                             (x, y), 'white' if pieza[0] == 'b' else 'black', self
                         )
                     elif pieza[1] == 'A':
-                        Cuadricula.ocupando_espacio = Alfil(
+                        cuadricula.ocupando_espacio = Alfil(
                             (x, y), 'white' if pieza[0] == 'b' else 'black', self
                         )
                     elif pieza[1] == 'Q':
-                        Cuadricula.ocupando_espacio = Reina(
+                        cuadricula.ocupando_espacio = Reina(
                             (x, y), 'white' if pieza[0] == 'b' else 'black', self
                         )
                     elif pieza[1] == 'K':
-                        Cuadricula.ocupando_espacio = Rey(
+                        cuadricula.ocupando_espacio = Rey(
                             (x, y), 'white' if pieza[0] == 'b' else 'black', self
                         )
                     elif pieza[1] == 'P':
-                        Cuadricula.ocupando_espacio = Peon(
+                        cuadricula.ocupando_espacio = Peon(
                             (x, y), 'white' if pieza[0] == 'b' else 'black', self
                         )
 
