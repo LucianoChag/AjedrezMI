@@ -1,5 +1,6 @@
 import pygame
 
+
 class Pieza:
     def __init__(self, pos, color, tablero):
         self.pos = pos
@@ -29,38 +30,38 @@ class Pieza:
                 output.append(cuadricula)
         return output
     
-    def move(self, tablero, cuadricula, forzar=False):
-        for i in tablero.squares:
+    def mover(self, tablero, cuadricula, forzar=False):
+        for i in tablero.cuadriculas:
             i.resaltado = False
         if cuadricula in self.get_movimientos_validos(tablero) or forzar:
-            prev_cuadricula = tablero.get_square_from_pos(self.pos)
+            prev_cuadricula = tablero.get_cuadricula_desde_pos(self.pos)
             self.pos, self.x, self.y = cuadricula.pos, cuadricula.x, cuadricula.y
             prev_cuadricula.ocupando_espacio = None
             cuadricula.ocupando_espacio = self
             tablero.pieza_seleccionada = None
             self.se_ha_movido = True
-            # Pawn promotion
+            # promocion del peon
             if self.notation == ' ':
                 if self.y == 0 or self.y == 7:
-                    from data.classes.pieces.Queen import Queen
-                    square.occupying_piece = Queen(
+                    from data.clases.piezas.reina import Reina
+                    cuadricula.ocupando_espacio = Reina(
                         (self.x, self.y),
                         self.color,
-                        board
+                        tablero
                     )
-            # Move rook if king castles
+            # Enroque
             if self.notation == 'K':
-                if prev_square.x - self.x == 2:
-                    rook = board.get_piece_from_pos((0, self.y))
-                    rook.move(board, board.get_square_from_pos((3, self.y)), force=True)
-                elif prev_square.x - self.x == -2:
-                    rook = board.get_piece_from_pos((7, self.y))
-                    rook.move(board, board.get_square_from_pos((5, self.y)), force=True)
+                if prev_cuadricula.x - self.x == 2:
+                    torre = tablero.get_pieza_desde_pos((0, self.y))
+                    torre.mover(tablero, tablero.get_cuadricula_desde_pos((3, self.y)), force=True)
+                elif prev_cuadricula.x - self.x == -2:
+                    torre = tablero.get_pieza_desde_pos((7, self.y))
+                    torre.mover(tablero, tablero.get_cuadricula_desde_pos((5, self.y)), force=True)
             return True
         else:
-            board.selected_piece = None
+            tablero.pieza_seleccionada = None
             return False
 
-    # True for all pieces except pawn
-    def attacking_squares(self, board):
-        return self.get_moves(board)
+    # Verdadero para todas las piezas excepto peon
+    def atacando_cuadricula(self, tablero):
+        return self.get_movimientos(tablero)
