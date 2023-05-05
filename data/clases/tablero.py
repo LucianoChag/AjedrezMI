@@ -132,3 +132,24 @@ class Tablero:
             vieja_cuadricula.ocupando_espacio = pieza_cambiante
             nueva_cuadricula.ocupando_espacio = nueva_cuadricula_vieja_pieza
         return output
+
+#Checkeamos si esta en jaque mate
+    def esta_en_jaque_mate(self, color):
+        output = False
+        for pieza in [i.ocupando_espacio for i in self.cuadriculas]:
+            if pieza != None:
+                if pieza.notacion == 'R' and pieza.color == color:
+                    rey = pieza
+        if rey.get_movimientos_validos(self) == []:
+            if self.esta_en_jaque(color):
+                output = True
+        return output
+
+#Resaltamos todos los posibles movimientos para una pieza en nuestro turno
+    def dibujar(self, display):
+        if self.pieza_seleccionada is not None:
+            self.get_cuadricula_desde_pos(self.pieza_seleccionada.pos).resaltado = True
+            for cuadricula in self.pieza_seleccionada.get_movimientos_validos(self):
+                cuadricula.resaltado = True
+        for cuadricula in self.cuadriculas:
+            cuadricula.dibujar(display)
