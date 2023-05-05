@@ -50,7 +50,7 @@ class Pieza:
                         tablero
                     )
             # Enroque
-            if self.notation == 'K':
+            if self.notacion == 'R':
                 if prev_cuadricula.x - self.x == 2:
                     torre = tablero.get_pieza_desde_pos((0, self.y))
                     torre.mover(tablero, tablero.get_cuadricula_desde_pos((3, self.y)), force=True)
