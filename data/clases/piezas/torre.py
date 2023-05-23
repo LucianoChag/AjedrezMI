@@ -10,7 +10,7 @@ class Torre(Pieza):
         self.img = pygame.transform.scale(self.img, (tablero.tile_ancho - 20, tablero.tile_alto - 20))
         self.notation = 'T'
 
-    def get_possible_moves(self, tablero):
+    def get_posibles_movimientos(self, tablero):
         output = []
         mover_norte = []
         for y in range(self.y)[::-1]:
