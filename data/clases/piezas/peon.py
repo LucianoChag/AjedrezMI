@@ -5,10 +5,7 @@ from data.clases.pieza import Pieza
 class Peon(Pieza):
     def __init__(self, pos, color, tablero):
         super().__init__(pos, color, tablero)
-        if color[0]:
-            img_path = 'data/imgs/n_peon.png'
-        else:
-            img_path = 'data/imgs/b_peon.png'
+        img_path = 'data/imgs/' + color[0] + '_peon.png'
         self.img = pygame.image.load(img_path)
         self.img = pygame.transform.scale(self.img, (tablero.tile_ancho - 35, tablero.tile_alto - 35))
         self.notacion = ' '
