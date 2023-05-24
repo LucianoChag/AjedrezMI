@@ -1,11 +1,11 @@
 import pygame
-from data.clases.cuadricula import Cuadricula
-from data.clases.piezas.torre import Torre
-from data.clases.piezas.alfil import Alfil
-from data.clases.piezas.peon import Peon
-from data.clases.piezas.rey import Rey
-from data.clases.piezas.reina import Reina
-from data.clases.piezas.caballo import Caballo
+from data.clases.Cuadricula import Cuadricula
+from data.clases.piezas.Torre import Torre
+from data.clases.piezas.Alfil import Alfil
+from data.clases.piezas.Peon import Peon
+from data.clases.piezas.Rey import Rey
+from data.clases.piezas.Reina import Reina
+from data.clases.piezas.Caballo import Caballo
 
 # comprobando el estado del juego
 class Tablero:
@@ -70,7 +70,7 @@ class Tablero:
                         cuadricula.ocupando_espacio = Reina(
                             (x, y), 'white' if pieza[0] == 'b' else 'black', self
                         )
-                    elif pieza[1] == 'K':
+                    elif pieza[1] == 'R':
                         cuadricula.ocupando_espacio = Rey(
                             (x, y), 'white' if pieza[0] == 'b' else 'black', self
                         )

@@ -1,5 +1,5 @@
 import pygame
-from data.clases.pieza import Pieza
+from data.clases.Pieza import Pieza
 
 class Reina(Pieza):
     def __init__(self, pos, color, tablero):

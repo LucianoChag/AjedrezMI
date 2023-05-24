@@ -1,6 +1,6 @@
 import pygame
 
-from data.clases.pieza import Pieza
+from data.clases.Pieza import Pieza
 
 class Torre(Pieza):
     def __init__(self, pos, color, tablero):

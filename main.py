@@ -1,6 +1,6 @@
 import pygame
 
-from data.clases.tablero import Tablero
+from data.clases.Tablero import Tablero
 
 pygame.init()
 

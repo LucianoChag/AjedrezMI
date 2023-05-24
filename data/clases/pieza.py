@@ -43,7 +43,7 @@ class Pieza:
             # promocion del peon
             if self.notation == ' ':
                 if self.y == 0 or self.y == 7:
-                    from data.clases.piezas.reina import Reina
+                    from data.clases.piezas.Reina import Reina
                     cuadricula.ocupando_espacio = Reina(
                         (self.x, self.y),
                         self.color,
