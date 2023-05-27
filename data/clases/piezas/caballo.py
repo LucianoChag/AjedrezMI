@@ -6,7 +6,7 @@ class Caballo(Pieza):
         super().__init__(pos, color, tablero)
         img_path = 'data/imgs/' + color[0] + '_caballo.png'
         self.img = pygame.image.load(img_path)
-        self.img = pygame.transform.scale(self.img, (tablero.tile_ancho - 20, tablero.tile_alto - 20))
+        self.img = pygame.transform.scale(self.img, (tablero.tile_ancho - 30, tablero.tile_alto - 30))
         self.notacion = 'C'
 
     def get_posibles_movimientos(self, tablero):

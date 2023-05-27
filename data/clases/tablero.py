@@ -17,27 +17,27 @@ class Tablero:
         self.pieza_seleccionada = None
         self.turno = 'white'
         self.config = [
-            ['nT', 'nC', 'nA', 'nQ', 'nR', 'nA', 'nC', 'nT'],
-            ['nP', 'nP', 'nP', 'nP', 'nP', 'nP', 'nP', 'nP'],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP'],
             ['bT', 'bC', 'bA', 'bQ', 'bR', 'bA', 'bC', 'bT'],
+            ['bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP'],
+            ['','','','','','','',''],
+            ['','','','','','','',''],
+            ['','','','','','','',''],
+            ['','','','','','','',''],
+            ['wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP'],
+            ['wT', 'wC', 'wA', 'wQ', 'wR', 'wA', 'wC', 'wT'],
         ]
         self.cuadriculas = self.generar_cuadriculas()
         self.setup_tablero()
 
 #Generamos las cuadriculas en el tablero
     def generar_cuadriculas(self):
-        salida = []
+        output = []
         for y in range(8):
             for x in range(8):
-                salida.append(
+                output.append(
                     Cuadricula(x,  y, self.tile_ancho, self.tile_alto)
                 )
-        return salida
+        return output
 
     def get_cuadricula_desde_pos(self, pos):
         for cuadricula in self.cuadriculas:
@@ -56,27 +56,27 @@ class Tablero:
                     #Miramos dentro del contenido a ver que pieza corresponde
                     if pieza[1] == 'T':
                         cuadricula.ocupando_espacio = Torre(
-                            (x, y), 'white' if pieza[0] == 'b' else 'black', self
+                            (x, y), 'white' if pieza[0] == 'w' else 'black', self
                         )
                     elif pieza[1] == 'C':
                         cuadricula.ocupando_espacio = Caballo(
-                            (x, y), 'white' if pieza[0] == 'b' else 'black', self
+                            (x, y), 'white' if pieza[0] == 'w' else 'black', self
                         )
                     elif pieza[1] == 'A':
                         cuadricula.ocupando_espacio = Alfil(
-                            (x, y), 'white' if pieza[0] == 'b' else 'black', self
+                            (x, y), 'white' if pieza[0] == 'w' else 'black', self
                         )
                     elif pieza[1] == 'Q':
                         cuadricula.ocupando_espacio = Reina(
-                            (x, y), 'white' if pieza[0] == 'b' else 'black', self
+                            (x, y), 'white' if pieza[0] == 'w' else 'black', self
                         )
                     elif pieza[1] == 'R':
                         cuadricula.ocupando_espacio = Rey(
-                            (x, y), 'white' if pieza[0] == 'b' else 'black', self
+                            (x, y), 'white' if pieza[0] == 'w' else 'black', self
                         )
                     elif pieza[1] == 'P':
                         cuadricula.ocupando_espacio = Peon(
-                            (x, y), 'white' if pieza[0] == 'b' else 'black', self
+                            (x, y), 'white' if pieza[0] == 'w' else 'black', self
                         )
 
 #Funcion para determinar si hicieron click en alguna cuadricula

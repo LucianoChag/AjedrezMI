@@ -6,8 +6,8 @@ class Rey(Pieza):
         super().__init__(pos, color, tablero)
         img_path = 'data/imgs/' + color[0] + '_rey.png'
         self.img = pygame.image.load(img_path)
-        self.img = pygame.transform.scale(self.img, (tablero.tile_ancho - 20, tablero.tile_alto - 20))
-        self.notation = 'R'
+        self.img = pygame.transform.scale(self.img, (tablero.tile_ancho - 30, tablero.tile_alto - 30))
+        self.notacion = 'R'
 
     def get_posibles_movimientos(self, tablero):
         output = []
@@ -72,7 +72,7 @@ class Rey(Pieza):
     def get_movimientos_validos(self, tablero):
         output = []
         for cuadricula in self.get_movimientos(tablero):
-            if not tablero.esta_es_jaque(self.color, board_change=[self.pos, cuadricula.pos]):
+            if not tablero.esta_en_jaque(self.color, cambio_del_tablero=[self.pos, cuadricula.pos]):
                 output.append(cuadricula)
         if self.can_castle(tablero) == 'queenside':
             output.append(

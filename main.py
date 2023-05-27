@@ -4,14 +4,14 @@ from data.clases.Tablero import Tablero
 
 pygame.init()
 
-WINDOW_SIZE = (500, 500)
+WINDOW_SIZE = (650, 650)
 screen = pygame.display.set_mode(WINDOW_SIZE)
 
 tablero = Tablero(WINDOW_SIZE[0], WINDOW_SIZE[1])
 
 def draw(display):
 	display.fill('white')
-	tablero.draw(display)
+	tablero.dibujar(display)
 	pygame.display.update()
 
 

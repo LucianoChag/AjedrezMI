@@ -9,6 +9,40 @@ class Pieza:
         self.color = color
         self.se_ha_movido = False
 
+
+    def mover(self, tablero, cuadricula, forzar=False):
+        for i in tablero.cuadriculas:
+            i.resaltado = False
+        if cuadricula in self.get_movimientos_validos(tablero) or forzar:
+            prev_cuadricula = tablero.get_cuadricula_desde_pos(self.pos)
+            self.pos, self.x, self.y = cuadricula.pos, cuadricula.x, cuadricula.y
+            prev_cuadricula.ocupando_espacio = None
+            cuadricula.ocupando_espacio = self
+            tablero.pieza_seleccionada = None
+            self.se_ha_movido = True
+
+            # promocion del peon
+            if self.notacion == ' ':
+                if self.y == 0 or self.y == 7:
+                    from data.clases.piezas.Reina import Reina
+                    cuadricula.ocupando_espacio = Reina(
+                        (self.x, self.y),
+                        self.color,
+                        tablero
+                    )
+            # Enroque
+            if self.notacion == 'R':
+                if prev_cuadricula.x - self.x == 2:
+                    torre = tablero.get_pieza_desde_pos((0, self.y))
+                    torre.mover(tablero, tablero.get_cuadricula_desde_pos((3, self.y)), force=True)
+                elif prev_cuadricula.x - self.x == -2:
+                    torre = tablero.get_pieza_desde_pos((7, self.y))
+                    torre.mover(tablero, tablero.get_cuadricula_desde_pos((5, self.y)), force=True)
+            return True
+        else:
+            tablero.pieza_seleccionada = None
+            return False
+
     def get_movimientos(self, tablero):
         output = []
         for direction in self.get_posibles_movimientos(tablero):
@@ -30,38 +64,8 @@ class Pieza:
                 output.append(cuadricula)
         return output
     
-    def mover(self, tablero, cuadricula, forzar=False):
-        for i in tablero.cuadriculas:
-            i.resaltado = False
-        if cuadricula in self.get_movimientos_validos(tablero) or forzar:
-            prev_cuadricula = tablero.get_cuadricula_desde_pos(self.pos)
-            self.pos, self.x, self.y = cuadricula.pos, cuadricula.x, cuadricula.y
-            prev_cuadricula.ocupando_espacio = None
-            cuadricula.ocupando_espacio = self
-            tablero.pieza_seleccionada = None
-            self.se_ha_movido = True
-            # promocion del peon
-            if self.notation == ' ':
-                if self.y == 0 or self.y == 7:
-                    from data.clases.piezas.Reina import Reina
-                    cuadricula.ocupando_espacio = Reina(
-                        (self.x, self.y),
-                        self.color,
-                        tablero
-                    )
-            # Enroque
-            if self.notacion == 'R':
-                if prev_cuadricula.x - self.x == 2:
-                    torre = tablero.get_pieza_desde_pos((0, self.y))
-                    torre.mover(tablero, tablero.get_cuadricula_desde_pos((3, self.y)), force=True)
-                elif prev_cuadricula.x - self.x == -2:
-                    torre = tablero.get_pieza_desde_pos((7, self.y))
-                    torre.mover(tablero, tablero.get_cuadricula_desde_pos((5, self.y)), force=True)
-            return True
-        else:
-            tablero.pieza_seleccionada = None
-            return False
+
 
     # Verdadero para todas las piezas excepto peon
-    def atacando_cuadricula(self, tablero):
+    def atacando_cuadriculas(self, tablero):
         return self.get_movimientos(tablero)

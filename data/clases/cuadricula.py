@@ -3,7 +3,7 @@ import pygame
 class Cuadricula:
 
     #Crea el cuadrado
-    def _init_(self, x, y, ancho, alto):
+    def __init__(self, x, y, ancho, alto):
         self.x = x
         self.y = y
         self.ancho = ancho
@@ -13,7 +13,7 @@ class Cuadricula:
         self.abs_pos = (self.abs_x, self.abs_y)
         self.pos = (x,y)
         self.color = 'light' if (x+y) % 2 == 0 else 'dark'
-        self.dibujar_color = (220, 208, 194) if self.color == 'light' else (53, 53, 53)
+        self.dibujar_color = (214, 199, 192) if self.color == 'light' else (53, 53, 53)
         self.resaltar_color = (100, 249, 83) if self.color == 'light' else (0, 228, 10)
         self.ocupando_espacio = None
         self.coordenada = self.get_coordenada()
@@ -33,12 +33,12 @@ class Cuadricula:
     def dibujar(self, display):
         #Determina si un cuadrado es negro, blanco o está resaltado
         if self.resaltado:
-            pygame.draw.rect(display, self.resaltar_color, self.rect)
+            pygame.draw.rect(display, self.resaltar_color, self.cuadrado)
         else:
-            pygame.draw.rect(display, self.dibujar_color, self.rect)
+            pygame.draw.rect(display, self.dibujar_color, self.cuadrado)
         
         #Añade la pieza al cuadrado
         if self.ocupando_espacio != None:
             centrar_cuadrado = self.ocupando_espacio.img.get_rect()
-            centrar_cuadrado.center = self.rect.center
+            centrar_cuadrado.center = self.cuadrado.center
             display.blit(self.ocupando_espacio.img, centrar_cuadrado.topleft)
