@@ -24,7 +24,7 @@ class Pieza:
             # promocion del peon
             if self.notacion == ' ':
                 if self.y == 0 or self.y == 7:
-                    from data.clases.piezas.Reina import Reina
+                    from data.clases.piezas.reina import Reina
                     cuadricula.ocupando_espacio = Reina(
                         (self.x, self.y),
                         self.color,
@@ -34,10 +34,10 @@ class Pieza:
             if self.notacion == 'R':
                 if prev_cuadricula.x - self.x == 2:
                     torre = tablero.get_pieza_desde_pos((0, self.y))
-                    torre.mover(tablero, tablero.get_cuadricula_desde_pos((3, self.y)), force=True)
+                    torre.mover(tablero, tablero.get_cuadricula_desde_pos((3, self.y)), forzar=True)
                 elif prev_cuadricula.x - self.x == -2:
                     torre = tablero.get_pieza_desde_pos((7, self.y))
-                    torre.mover(tablero, tablero.get_cuadricula_desde_pos((5, self.y)), force=True)
+                    torre.mover(tablero, tablero.get_cuadricula_desde_pos((5, self.y)), forzar=True)
             return True
         else:
             tablero.pieza_seleccionada = None

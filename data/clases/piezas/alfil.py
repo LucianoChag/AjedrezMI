@@ -1,5 +1,5 @@
 import pygame
-from data.clases.Pieza import Pieza
+from data.clases.pieza import Pieza
 
 class Alfil(Pieza):
     def __init__(self, pos, color, tablero):
