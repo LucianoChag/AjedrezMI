@@ -1,5 +1,7 @@
+import pickle
 import sys
 import pygame
+from data.clases.cuadricula import Cuadricula
 from data.clases.button import Button
 from data.clases.tablero import Tablero
 
@@ -48,8 +50,8 @@ def menu_principal():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if NUEVA_PARTIDA_BUTTON.checkForInput(MENU_MOUSE_POS):
                     nueva_partida()
-                #if CONTINUAR_BUTTON.checkForInput(MENU_MOUSE_POS):
-                #   options()
+                if CONTINUAR_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    continuar()
                 if SALIR_BUTTON.checkForInput(MENU_MOUSE_POS):
                     pygame.quit()
                     sys.exit()
@@ -57,25 +59,45 @@ def menu_principal():
 
 
 def nueva_partida():
-	pygame.display.set_caption("Ajedrez")
-	game_running = True
-	while game_running:
-		mx, my = pygame.mouse.get_pos()
-		for event in pygame.event.get():
-			# Quit the game if the user presses the close button
-			if event.type == pygame.QUIT:
-				game_running = False
-			elif event.type == pygame.MOUSEBUTTONDOWN: 
-            # If the mouse is clicked
-				if event.button == 1:
-					tablero.handle_click(mx, my)
-		if tablero.esta_en_jaque_mate('black'): # If black is in checkmate
-			print('White wins!')
-			game_running = False
-		elif tablero.esta_en_jaque_mate('white'): # If white is in checkmate
-			print('Black wins!')
-			game_running = False
-		# Draw the board
-		draw(screen)
+    pygame.display.set_caption("Ajedrez")
+    game_running = True
+
+    while game_running:
+        mx, my = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN: 
+                if event.button == 1:
+                    tablero.handle_click(mx, my)
+        if tablero.esta_en_jaque_mate('black'):
+            print('White wins!')
+            game_running = False
+        elif tablero.esta_en_jaque_mate('white'):
+            print('Black wins!')
+            game_running = False
+        draw(screen)
+
+def continuar():
+    pygame.display.set_caption("Ajedrez")
+    game_running = True
+    tablero.cargar_estado()
+
+    while game_running:
+        mx, my = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN: 
+                if event.button == 1:
+                    tablero.handle_click(mx, my)
+        if tablero.esta_en_jaque_mate('black'):
+            print('White wins!')
+            game_running = False
+        elif tablero.esta_en_jaque_mate('white'):
+            print('Black wins!')
+            game_running = False
+        draw(screen)
+
 
 menu_principal()
