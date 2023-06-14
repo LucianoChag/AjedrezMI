@@ -62,6 +62,8 @@ def nueva_partida():
     pygame.display.set_caption("Ajedrez")
     game_running = True
 
+    tablero.reiniciar_tablero()
+
     while game_running:
         mx, my = pygame.mouse.get_pos()
         for event in pygame.event.get():

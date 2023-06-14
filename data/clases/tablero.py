@@ -204,4 +204,21 @@ class Tablero:
             self.pieza_seleccionada = estado["pieza_seleccionada"]
             self.turno = estado["turno"]
             self.config = estado["config"]
+
+    def reiniciar_tablero(self):
+        self.pieza_seleccionada = None
+        self.turno = 'white'
+        self.config = [
+            ['bT', 'bC', 'bA', 'bQ', 'bR', 'bA', 'bC', 'bT'],
+            ['bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP'],
+            ['','','','','','','',''],
+            ['','','','','','','',''],
+            ['','','','','','','',''],
+            ['','','','','','','',''],
+            ['wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP'],
+            ['wT', 'wC', 'wA', 'wQ', 'wR', 'wA', 'wC', 'wT'],
+        ]
+        self.cuadriculas = self.generar_cuadriculas()
+        self.setup_tablero()
+
             
