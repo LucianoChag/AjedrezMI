@@ -1,3 +1,5 @@
+import pickle
+import os
 import pygame
 from data.clases.cuadricula import Cuadricula
 from data.clases.piezas.torre import Torre
@@ -6,6 +8,8 @@ from data.clases.piezas.peon import Peon
 from data.clases.piezas.rey import Rey
 from data.clases.piezas.reina import Reina
 from data.clases.piezas.caballo import Caballo
+
+ARCHIVO_GUARDADO = "autoguardado.pickle"
 
 # comprobando el estado del juego
 class Tablero:
@@ -49,6 +53,7 @@ class Tablero:
 
 #Seteamos el tablero con su correspondiente pieza
     def setup_tablero(self):
+        cuadriculas = []
         for y, fila in enumerate(self.config):
             for x, pieza in enumerate(fila):
                 if pieza != '':
@@ -78,6 +83,42 @@ class Tablero:
                         cuadricula.ocupando_espacio = Peon(
                             (x, y), 'white' if pieza[0] == 'w' else 'black', self
                         )
+                    cuadriculas.append(cuadricula)
+        return cuadriculas
+
+
+    def obtener_cuadriculas_info(self):
+        cuadriculas_info = []
+        for cuadricula in self.cuadriculas:
+            info = {
+                "pos": cuadricula.pos,
+                "x": cuadricula.x,
+                "y": cuadricula.y,
+                "pieza": None
+            }
+        if cuadricula.ocupando_espacio is not None:
+            info["pieza"] = cuadricula.ocupando_espacio.obtener_informacion()
+            cuadriculas_info.append(info)
+        return cuadriculas_info
+
+
+    def crear_pieza_desde_informacion(info, tablero):
+        pos = info["pos"]
+        color = info["color"]
+        tipo = info["tipo"]
+        
+        if tipo == "Torre":
+            return Torre(pos, color, tablero)
+        elif tipo == "Caballo":
+            return Caballo(pos, color, tablero)
+        elif tipo == "Alfil":
+            return Alfil(pos, color, tablero)
+        elif tipo == "Reina":
+            return Reina(pos, color, tablero)
+        elif tipo == "Rey":
+            return Rey(pos, color, tablero)
+        elif tipo == "Peon":
+            return Peon(pos, color, tablero)
 
 #Funcion para determinar si hicieron click en alguna cuadricula
     def handle_click(self, mx, my):
@@ -90,6 +131,7 @@ class Tablero:
                     self.pieza_seleccionada = cuadricula_clickeada.ocupando_espacio
         elif self.pieza_seleccionada.mover(self, cuadricula_clickeada):
             self.turno = 'white' if self.turno == 'black' else 'black'
+            self.guardar_estado()
         elif cuadricula_clickeada.ocupando_espacio is not None:
             if cuadricula_clickeada.ocupando_espacio.color == self.turno:
                 self.pieza_seleccionada = cuadricula_clickeada.ocupando_espacio
@@ -136,13 +178,25 @@ class Tablero:
 #Checkeamos si esta en jaque mate
     def esta_en_jaque_mate(self, color):
         output = False
+        # Buscar el rey del color dado
+        rey = None
+        for cuadricula in self.cuadriculas:
+            if cuadricula.ocupando_espacio is not None and cuadricula.ocupando_espacio.color == color and isinstance(cuadricula.ocupando_espacio, Rey):
+                rey = cuadricula.ocupando_espacio
+            break
+
+        if rey is None:
+            return output
+
         for pieza in [i.ocupando_espacio for i in self.cuadriculas]:
             if pieza != None:
                 if pieza.notacion == 'R' and pieza.color == color:
                     rey = pieza
+
         if rey.get_movimientos_validos(self) == []:
             if self.esta_en_jaque(color):
                 output = True
+
         return output
 
 #Resaltamos todos los posibles movimientos para una pieza en nuestro turno
@@ -153,3 +207,40 @@ class Tablero:
                 cuadricula.resaltado = True
         for cuadricula in self.cuadriculas:
             cuadricula.dibujar(display)
+
+
+    def guardar_estado(self):
+        cuadriculas_info = self.obtener_cuadriculas_info()
+        estado = {
+            "ancho": self.ancho, 
+            "alto": self.alto,
+            "tile_ancho": self.tile_ancho,
+            "tile_alto": self.tile_alto,
+            "pieza_seleccionada": self.pieza_seleccionada,
+            "turno": self.turno,
+            "config": self.config,
+            "cuadriculas": cuadriculas_info
+            # Otros datos relevantes del tablero que desees guardar
+        }
+
+        with open("data/autoguardado.pickle", "wb") as file:
+            pickle.dump(estado, file)
+
+
+    def cargar_estado(self):
+        # Cargar el estado desde el archivo utilizando pickle
+        with open("data/autoguardado.pickle", "rb") as file:
+            estado = pickle.load(file)
+
+        # Restaurar el estado del tablero
+        self.ancho = estado["ancho"]
+        self.alto = estado["alto"]
+        self.tile_ancho = estado["tile_ancho"]
+        self.tile_alto = estado["tile_alto"]
+        self.pieza_seleccionada = estado["pieza_seleccionada"]
+        self.turno = estado["turno"]
+        self.config = estado["config"]
+        cuadriculas_info = estado["cuadriculas"]
+        for cuadricula_info in cuadriculas_info:
+            cuadricula = self.get_cuadricula_desde_pos(cuadricula_info["pos"])
+            cuadricula.ocupando_espacio = self.crear_pieza_desde_informacion(cuadricula_info["pieza"])

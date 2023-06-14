@@ -83,3 +83,10 @@ class Rey(Pieza):
                 tablero.get_cuadricula_desde_pos((self.x + 2, self.y))
             )
         return output
+
+
+    def obtener_informacion(self):
+        return {
+            "posicion": self.pos,
+            "color": self.color
+        }

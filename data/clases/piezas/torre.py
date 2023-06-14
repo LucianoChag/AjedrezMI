@@ -37,3 +37,11 @@ class Torre(Pieza):
             ))
         output.append(mover_oeste)
         return output
+
+
+    def obtener_informacion(self):
+        return {
+            "posicion": self.pos,
+            "color": self.color
+            
+        }

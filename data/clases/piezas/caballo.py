@@ -35,3 +35,10 @@ class Caballo(Pieza):
                     )
                 ])
         return output
+
+
+    def obtener_informacion(self):
+        return {
+            "posicion": self.pos,
+            "color": self.color
+        }

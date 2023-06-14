@@ -49,3 +49,10 @@ class Alfil(Pieza):
         output.append(mueve_no)
         
         return output
+
+
+    def obtener_informacion(self):
+        return {
+            "posicion": self.pos,
+            "color": self.color
+        }
