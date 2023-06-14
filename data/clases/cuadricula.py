@@ -42,3 +42,4 @@ class Cuadricula:
             centrar_cuadrado = self.ocupando_espacio.img.get_rect()
             centrar_cuadrado.center = self.cuadrado.center
             display.blit(self.ocupando_espacio.img, centrar_cuadrado.topleft)
+

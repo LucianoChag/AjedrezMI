@@ -73,3 +73,10 @@ class Peon(Pieza):
         movimientos = self.get_movimientos(tablero)
         # retornar movimientos diagonales
         return [i for i in movimientos if i.x != self.x]
+
+
+    def obtener_informacion(self):
+        return {
+            "posicion": self.pos,
+            "color": self.color
+        }
