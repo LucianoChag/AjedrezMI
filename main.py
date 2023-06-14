@@ -1,3 +1,4 @@
+
 import pickle
 import sys
 import pygame
@@ -22,7 +23,8 @@ def draw(display):
 def get_font(size): 
     return pygame.font.Font("data/imgs/font.ttf", size)
 
-
+  
+    
 def menu_principal():
     pygame.display.set_caption("Menú Principal")
     while True:
