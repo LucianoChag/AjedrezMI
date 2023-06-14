@@ -1,4 +1,4 @@
-import pickle
+import json
 import os
 import pygame
 from data.clases.cuadricula import Cuadricula
@@ -86,39 +86,6 @@ class Tablero:
                     cuadriculas.append(cuadricula)
         return cuadriculas
 
-
-    def obtener_cuadriculas_info(self):
-        cuadriculas_info = []
-        for cuadricula in self.cuadriculas:
-            info = {
-                "pos": cuadricula.pos,
-                "x": cuadricula.x,
-                "y": cuadricula.y,
-                "pieza": None
-            }
-        if cuadricula.ocupando_espacio is not None:
-            info["pieza"] = cuadricula.ocupando_espacio.obtener_informacion()
-            cuadriculas_info.append(info)
-        return cuadriculas_info
-
-
-    def crear_pieza_desde_informacion(info, tablero):
-        pos = info["pos"]
-        color = info["color"]
-        tipo = info["tipo"]
-        
-        if tipo == "Torre":
-            return Torre(pos, color, tablero)
-        elif tipo == "Caballo":
-            return Caballo(pos, color, tablero)
-        elif tipo == "Alfil":
-            return Alfil(pos, color, tablero)
-        elif tipo == "Reina":
-            return Reina(pos, color, tablero)
-        elif tipo == "Rey":
-            return Rey(pos, color, tablero)
-        elif tipo == "Peon":
-            return Peon(pos, color, tablero)
 
 #Funcion para determinar si hicieron click en alguna cuadricula
     def handle_click(self, mx, my):
@@ -210,7 +177,6 @@ class Tablero:
 
 
     def guardar_estado(self):
-        cuadriculas_info = self.obtener_cuadriculas_info()
         estado = {
             "ancho": self.ancho, 
             "alto": self.alto,
@@ -219,28 +185,23 @@ class Tablero:
             "pieza_seleccionada": self.pieza_seleccionada,
             "turno": self.turno,
             "config": self.config,
-            "cuadriculas": cuadriculas_info
+            
             # Otros datos relevantes del tablero que desees guardar
         }
 
-        with open("data/autoguardado.pickle", "wb") as file:
-            pickle.dump(estado, file)
+        with open("data/autoguardado.json", "w") as file:
+            json.dump(estado, file)
 
 
     def cargar_estado(self):
-        # Cargar el estado desde el archivo utilizando pickle
-        with open("data/autoguardado.pickle", "rb") as file:
-            estado = pickle.load(file)
-
-        # Restaurar el estado del tablero
-        self.ancho = estado["ancho"]
-        self.alto = estado["alto"]
-        self.tile_ancho = estado["tile_ancho"]
-        self.tile_alto = estado["tile_alto"]
-        self.pieza_seleccionada = estado["pieza_seleccionada"]
-        self.turno = estado["turno"]
-        self.config = estado["config"]
-        cuadriculas_info = estado["cuadriculas"]
-        for cuadricula_info in cuadriculas_info:
-            cuadricula = self.get_cuadricula_desde_pos(cuadricula_info["pos"])
-            cuadricula.ocupando_espacio = self.crear_pieza_desde_informacion(cuadricula_info["pieza"])
+        with open("data/autoguardado.json", "r") as file:
+            estado = json.load(file)
+            
+            self.ancho = estado["ancho"]
+            self.alto = estado["alto"]
+            self.tile_ancho = estado["tile_ancho"]
+            self.tile_alto = estado["tile_alto"]
+            self.pieza_seleccionada = estado["pieza_seleccionada"]
+            self.turno = estado["turno"]
+            self.config = estado["config"]
+            
