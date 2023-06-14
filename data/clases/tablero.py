@@ -221,4 +221,5 @@ class Tablero:
         self.cuadriculas = self.generar_cuadriculas()
         self.setup_tablero()
 
+
             

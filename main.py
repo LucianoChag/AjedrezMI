@@ -61,24 +61,22 @@ def menu_principal():
 def nueva_partida():
     pygame.display.set_caption("Ajedrez")
     game_running = True
-
     tablero.reiniciar_tablero()
-
     while game_running:
-        mx, my = pygame.mouse.get_pos()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            mx, my = pygame.mouse.get_pos()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_running = False
+                elif event.type == pygame.MOUSEBUTTONDOWN: 
+                    if event.button == 1:
+                        tablero.handle_click(mx, my)
+            if tablero.esta_en_jaque_mate('black'):
+                print('White wins!')
                 game_running = False
-            elif event.type == pygame.MOUSEBUTTONDOWN: 
-                if event.button == 1:
-                    tablero.handle_click(mx, my)
-        if tablero.esta_en_jaque_mate('black'):
-            print('White wins!')
-            game_running = False
-        elif tablero.esta_en_jaque_mate('white'):
-            print('Black wins!')
-            game_running = False
-        draw(screen)
+            elif tablero.esta_en_jaque_mate('white'):
+                print('Black wins!')
+                game_running = False
+            draw(screen)
 
 def continuar():
     pygame.display.set_caption("Ajedrez")
