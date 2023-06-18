@@ -138,7 +138,7 @@ class Tablero:
                     if cuadricula.pos == rey_pos:
                         output = True
         if cambio_del_tablero is not None:
-            vieja_cuadricula.ocupando_espacio = pieza_cambiante
+            #vieja_cuadricula.ocupando_espacio = pieza_cambiante
             nueva_cuadricula.ocupando_espacio = nueva_cuadricula_vieja_pieza
         return output
 
@@ -182,28 +182,41 @@ class Tablero:
             "alto": self.alto,
             "tile_ancho": self.tile_ancho,
             "tile_alto": self.tile_alto,
-            "pieza_seleccionada": self.pieza_seleccionada,
-            "turno": self.turno,
-            "config": self.config,
-            
-            # Otros datos relevantes del tablero que desees guardar
+            "piezas": []
         }
+
+        for cuadricula in self.cuadriculas:
+            pieza = cuadricula.ocupando_espacio
+            if pieza is not None:
+                estado["piezas"].append({
+                    "pos": pieza.pos,
+                    "color": pieza.color,
+                    "tipo": type(pieza).__name__
+                })
 
         with open("data/autoguardado.json", "w") as file:
             json.dump(estado, file)
 
 
+
     def cargar_estado(self):
         with open("data/autoguardado.json", "r") as file:
             estado = json.load(file)
-            
+
             self.ancho = estado["ancho"]
             self.alto = estado["alto"]
             self.tile_ancho = estado["tile_ancho"]
             self.tile_alto = estado["tile_alto"]
-            self.pieza_seleccionada = estado["pieza_seleccionada"]
-            self.turno = estado["turno"]
-            self.config = estado["config"]
+            if "config" in estado:
+                self.config = estado["config"]
+                self.cuadriculas = self.generar_cuadriculas()
+
+            for pieza_data in estado["piezas"]:
+                pieza_class = eval(pieza_data["tipo"])
+                pieza = pieza_class(pieza_data["pos"], pieza_data["color"], self)
+                cuadricula = self.get_cuadricula_desde_pos(pieza_data["pos"])
+                cuadricula.ocupando_espacio = pieza
+
 
     def reiniciar_tablero(self):
         self.pieza_seleccionada = None
