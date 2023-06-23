@@ -13,8 +13,8 @@ class Cuadricula:
         self.abs_pos = (self.abs_x, self.abs_y)
         self.pos = (x,y)
         self.color = 'light' if (x+y) % 2 == 0 else 'dark'
-        self.dibujar_color = (214, 199, 192) if self.color == 'light' else (53, 53, 53)
-        self.resaltar_color = (100, 249, 83) if self.color == 'light' else (0, 228, 10)
+        self.dibujar_color = (214, 199, 192) if self.color == 'light' else (90, 90, 90)
+        self.resaltar_color = (25, 20, 174) if self.color == 'light' else (13, 6, 231)
         self.ocupando_espacio = None
         self.coordenada = self.get_coordenada()
         self.resaltado = False
